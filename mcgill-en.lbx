@@ -1,0 +1,67 @@
+\ProvidesFile{mcgill-en.lbx}
+[\abx@lbxid]
+
+
+\InheritBibliographyExtras{english}% correct? these are the US standards
+\InheritBibliographyStrings{english}
+
+\DeclareBibliographyExtras{%
+  \protected\def\mkbibordinal#1{%
+    \begingroup
+    \@tempcnta0#1\relax\number\@tempcnta
+    \@whilenum\@tempcnta>100\do{\advance\@tempcnta-100\relax}%
+    \ifnum\@tempcnta>20
+      \@whilenum\@tempcnta>9\do{\advance\@tempcnta-10\relax}%
+    \fi
+    \ifcase\@tempcnta th\or st\or d\or d\else th\fi
+    \endgroup}%
+}
+
+\NewBibliographyString{pinpoint}
+
+\DeclareBibliographyStrings{%
+  edition          = {{ed}{ed}},
+  editor           = {{ed}{ed}},
+  editors          = {{eds}{eds}},
+  % byeditor         = {{edited by}{ed\adddotspace by}},
+  % bycompiler       = {{compiled by}{comp\adddotspace by}},
+  % byredactor       = {{redacted by}{red\adddotspace by}},
+  % byreviser        = {{revised by}{rev\adddotspace by}},
+  % byreviewer       = {{reviewed by}{rev\adddotspace by}},
+  % byfounder        = {{founded by}{found\adddotspace by}},
+  % bycontinuator    = {{continued by}{cont\adddotspace by}},
+  % bycollaborator   = {{in collaboration with}{in collab\adddotspace with}},% FIXME: unsure
+  % bytranslator     = {{translated \lbx@lfromlang\ by}{trans\adddot\ \lbx@sfromlang\ by}},
+  ibidem           = {{ibid}{ibid}},
+  pinpoint         = {{at}{at}},
+  seenote          = {{\emph{supra} n}{\emph{supra} n}},
+  bytranslatorco   = {{translated \lbx@lfromlang\ and commented by}%
+                      {trans\adddot\ \lbx@sfromlang\ and comm\adddot\ by}},
+  bytranslatoran   = {{translated \lbx@lfromlang\ and annotated by}%
+                      {trans\adddot\ \lbx@sfromlang\ and annot\adddot\ by}},
+  bytranslatorin   = {{translated \lbx@lfromlang, with an introduction, by}%
+                      {trans\adddot\ \lbx@sfromlang, with an introd., by}},
+  bytranslatorfo   = {{translated \lbx@lfromlang, with a foreword, by}%
+                      {trans\adddot\ \lbx@sfromlang, with a forew., by}},
+  bytranslatoraf   = {{translated \lbx@lfromlang, with an afterword, by}%
+                      {trans\adddot\ \lbx@sfromlang, with an afterw., by}},
+  bytranslatorcoin = {{translated \lbx@lfromlang\ and commented, with an introduction, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and comm., with an introd., by}},
+  bytranslatorcofo = {{translated \lbx@lfromlang\ and commented, with a foreword, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and comm., with a forew., by}},
+  bytranslatorcoaf = {{translated \lbx@lfromlang\ and commented, with an afterword, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and comm., with an afterw., by}},
+  bytranslatoranin = {{translated \lbx@lfromlang\ and annotated, with an introduction, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and annot., with an introd., by}},
+  bytranslatoranfo = {{translated \lbx@lfromlang\ and annotated, with a foreword, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and annot., with a forew., by}},
+  bytranslatoranaf = {{translated \lbx@lfromlang\ and annotated, with an afterword, by}%
+                      {trans\adddot\ \lbx@sfromlang\ and annot., with an afterw., by}},
+  and              = {{and}{and}},
+  andothers        = {{et\addabbrvspace al\adddot}{et\addabbrvspace al\adddot}},
+  andmore          = {{et\addabbrvspace al\adddot}{et\addabbrvspace al\adddot}},
+  volume           = {{vol}{vol}},
+  volumes          = {{vols}{vols}},
+}
+
+\endinput
