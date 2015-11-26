@@ -1,0 +1,97 @@
+\ProvidesFile{mcgill.dbx}[2015/11/23 v0.01 Biblatex McGill extra entry types]
+
+\DeclareDatamodelEntrytypes{
+  jurisprudence,
+  statinstat,     % TODO
+  code,           % TODO
+  bill,           % TODO
+  regulation,     % TODO
+  gazette,        % TODO (incl. Orders in Council)
+  proclamation,   % TODO (incl. Royal Instructions)
+  bylaw,          % TODO
+  practicerule,   % TODO
+}
+
+
+\DeclareDatamodelFields[type=field, datatype=key]{
+  onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
+}
+
+\DeclareDatamodelFields[type=field, datatype=key]{
+  country,  % ca, us, en, etc.
+  paras,    % yes | no
+  parallel,
+  region,
+  province,      % includes: "state", sub-country regions, etc.
+}
+
+% \DeclareDatamodelFields[type=list, datatype=name]{
+% }
+
+\DeclareDatamodelFields[type=field, datatype=literal]{
+  casename,      % Smith v Jones
+  neutral,       % neutral citation
+  offrep,        % official print reporter: SCR, FCR, Ex Cr
+  semioffrep,    % semi-official reporter: AF, NBR (2d), Nfld \& PEIR,
+                 % NSR (2d), OR (3d), RJQ
+  unoffrep,      % e.g., DLR
+  offrepp,       % initial page of Official Reporter
+  semioffrepp,   % initial page of Semi-Official Reporter
+  shorthand,
+  addendum,
+  statute,       % includes 'jurisdiction'; thus: `RSO`
+  chapter,       % e.g.: c C-12; c 1
+  supplement,    % e.g.: (5th Supp)
+  looseleaf,
+}
+
+\DeclareDatamodelEntryfields[jurisprudence]{
+  country,       % ca, us, en, etc.
+  casename,      % Smith v Jones
+  neutral,       % neutral citation
+  offrep,        % official print reporter: SCR, FCR, Ex Cr
+  semioffrep,    % semi-official reporter: AF, NBR (2d), Nfld \& PEIR,
+                 % NSR (2d), OR (3d), RJQ
+  unoffrep,      % e.g., DLR
+  paras,         % ref. to paras?
+  offrepp,       % initial page of Official Reporter
+  semioffrepp,   % initial page of Semi-Official Reporter
+  onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
+  parallel,      % use `{no}` to indicate only a parallel cite
+  shorthand,
+  addendum,
+}
+
+\DeclareDatamodelEntryfields[legislation]{
+  region,        % unused `key` field
+  country,       % ca, us, en, etc.
+  province,      % unused `key` field
+  title,         % literal
+  shorttitle,    % literal
+  shorthand,     % special... (use?)
+  statute,       % literal
+  date,          % date
+  chapter,       % literal
+  supplement,    % literal
+  looseleaf,     % literal
+  addendum,
+}
+% TODO: amendments, repeals, and re-enactiments
+
+
+% TODO...
+\DeclareDatamodelEntryfields[statinstat]{}
+\DeclareDatamodelEntryfields[code]{}
+\DeclareDatamodelEntryfields[bill]{}
+\DeclareDatamodelEntryfields[regulation]{}
+\DeclareDatamodelEntryfields[gazette]{}
+\DeclareDatamodelEntryfields[proclamation]{}
+\DeclareDatamodelEntryfields[bylaw]{}
+\DeclareDatamodelEntryfields[practicerule]{}
+
+
+\endinput
+
+%%% Local Variables:
+%%% mode: latex
+%%% End:
