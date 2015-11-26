@@ -1,0 +1,547 @@
+\ProvidesFile{mcgill.cbx}
+[\abx@cbxid]
+
+\InitializeCitationStyle{\numgdef{\cbx@resetcount}{\cbx@resetcount+1}}
+
+\DeclareFieldFormat{bibhyperlink}{%
+  \bibhyperlink{\iffootnote{f}{t}:\cbx@resetcount:\thefield{entrykey}}{#1}}
+\DeclareFieldFormat{bibhypertarget}{%
+  \bibhypertarget{\iffootnote{f}{t}:\cbx@resetcount:\thefield{entrykey}}{#1}}
+
+\newcommand*{\cbx@resetcount}{0}
+\providecommand*{\mkibid}[1]{#1}
+\renewcommand*{\iffinalcitedelim}{%
+  \ifnumequal{\value{textcitecount}}{\value{textcitetotal}-1}}
+
+\newtoggle{cbx:pageref}% verbose-note.cbx
+\newtoggle{cbx:loccit}
+
+\DeclareBibliographyOption{mcgillfrench}[false]{%
+  \ifstrequal{#1}{false}
+    {\ExecuteBibliographyOptions{language=mcgill-en}}
+    {\ExecuteBibliographyOptions{language=mcgill-fr}}}
+
+\DeclareBibliographyOption{strict}[true]{%
+  \ifstrequal{#1}{true}
+    {\ExecuteBibliographyOptions{ibidtracker=constrict,loccittracker=constrict}}
+    {\ExecuteBibliographyOptions{ibidtracker=context,loccittracker=context}}}
+
+\DeclareBibliographyOption{citepages}[permit]{%
+  \ifcsdef{cbx@opt@citepages@#1}
+    {\csuse{cbx@opt@citepages@#1}}
+    {\PackageError{biblatex}
+       {Invalid option 'citepages=#1'}
+       {Valid values are 'permit', 'suppress', 'omit', 'separate'.}}}
+
+
+\providebibmacro*{cite:citepages}{}
+\providebibmacro*{cite:full:citepages}{}
+\providebibmacro*{cite:postnote}{}
+
+\def\cbx@opt@citepages@permit{%
+  \renewbibmacro*{cite:citepages}{}%
+  \renewbibmacro*{cite:full:citepages}{}%
+  \renewbibmacro*{cite:postnote}{%
+    \usebibmacro{cite:postnote:ibidpage}}}
+
+% \def\cbx@opt@citepages@suppress{%
+%   \renewbibmacro*{cite:citepages}{}%
+%   \renewbibmacro*{cite:full:citepages}{%
+%     \clearfield{pages}%
+%     \clearfield{pagetotal}}%
+%   \renewbibmacro*{cite:postnote}{%
+%     \usebibmacro{cite:postnote:ibidpage}}}
+
+% \def\cbx@opt@citepages@omit{%
+%   \renewbibmacro*{cite:citepages}{}%
+%   \renewbibmacro*{cite:full:citepages}{%
+%     \ifboolexpr{
+%       test {\ifnumequal{\value{citecount}}{\value{citetotal}}}
+%       and
+%       test {\iffieldpages{postnote}}
+%     }
+%       {\clearfield{pages}%
+%        \clearfield{pagetotal}}
+%       {}}%
+%   \renewbibmacro*{cite:postnote}{%
+%     \usebibmacro{cite:postnote:ibidpage}}}
+
+% \def\cbx@opt@citepages@separate{%
+%   \providetoggle{cbx:fullcite}%
+%   \renewbibmacro*{cite:citepages}{%
+%     \global\togglefalse{cbx:fullcite}}%
+%   \renewbibmacro*{cite:full:citepages}{%
+%     \global\toggletrue{cbx:fullcite}}%
+%   \renewbibmacro*{cite:postnote}{%
+%     \ifboolexpr{
+%       togl {cbx:fullcite}
+%       and
+%       test {\iffieldpages{postnote}}
+%       and
+%       test {\ifnumequal{\value{citecount}}{\value{citetotal}}}
+%       and
+%       (
+% 	not test {\iffieldundef{pages}}
+% 	or
+% 	not test {\iffieldundef{pagetotal}}
+%       )
+%     }
+%       {\usebibmacro{cite:postnote:pages}}
+%       {\usebibmacro{cite:postnote:ibidpage}}}
+%   \providebibmacro*{cite:postnote:pages}{%
+%     \setunit{\postnotedelim}%
+%     \bibstring{thiscite}%
+%     \setunit{\addspace}%
+%     \printfield{postnote}}}
+
+\ExecuteBibliographyOptions{citetracker=context,ibidtracker=constrict,
+  singletitle, %
+  loccittracker=constrict,autocite=footnote,citepages=permit}
+
+
+
+
+% biblatex-chicago: chicago-notes.cbx
+\protected\def\blx@newcunit{%
+  \global\let\blx@unitpunct\newcunitpunct
+  \global\toggletrue{blx@unit}}%
+
+\appto\blx@blxinit{%
+  \let\newcunit\blx@newcunit}
+
+\newcommand*{\newcunitpunct}{\addcomma\space}
+
+% McGill
+\protected\def\blx@newsunit{%
+  \global\let\blx@unitpunct\newsunitpunct
+  \global\toggletrue{blx@unit}}%
+
+\appto\blx@blxinit{%
+  \let\newsunit\blx@newsunit}
+
+\newcommand*{\newsunitpunct}{\addspace}
+
+
+\newbibmacro*{cite}{%
+  \usebibmacro{cite:citepages}%
+  \global\togglefalse{cbx:loccit}%
+  \ifciteseen
+    {\ifciteibid
+       {\ifloccit
+	  {\usebibmacro{cite:ibid}}
+	  {\iffieldundef{shorthand}
+	     {\usebibmacro{cite:short}}
+	     {\usebibmacro{cite:shorthand}}}}
+       {\iffieldundef{shorthand}
+	  {\usebibmacro{cite:short}}
+	  {\usebibmacro{cite:shorthand}}}}
+    {\usebibmacro{cite:full}
+     \usebibmacro{cite:save}}}
+
+\newbibmacro*{cite:save}{%
+  \csxdef{cbx@t@\thefield{entrykey}}{\the\value{instcount}}}
+
+\newbibmacro*{cite:full}{%
+  \usebibmacro{cite:full:citepages}%
+  \printtext[bibhypertarget]{%
+    \usedriver
+      {\DeclareNameAlias{sortname}{default}}
+      {cite:\thefield{entrytype}}}%
+  \usebibmacro{shorthandintro}}
+
+\newbibmacro*{cite:short}{%
+  \printnames{labelname}%
+  \setunit*{\nametitledelim}%
+  \printtext[bibhyperlink]{%
+    \printfield[citetitle]{labeltitle}}}
+
+% \newbibmacro*{cite:opcit}{%
+%   \printnames{labelname}%
+%   \setunit*{\nametitledelim}%
+%   \printtext[bibhyperlink]{%
+%     \bibstring[\mkibid]{opcit}}}
+
+\newbibmacro*{cite:ibid}{%
+  \printtext[bibhyperlink]{\bibstring[\mkibid]{ibidem}}%
+  \global\toggletrue{cbx:loccit}}
+
+\newbibmacro*{cite:shorthand}{%
+  \printtext[bibhyperlink]{\printfield{shorthand}}}
+
+\newbibmacro*{cite:postnote:ibidpage}{%
+  \iftoggle{cbx:loccit}
+    {\usebibmacro{postnote}}% <-- hack...
+    {\usebibmacro{postnote}}}
+
+% verbose-note.cbx
+\newbibmacro*{footcite}{%
+  \usebibmacro{cite:citepages}%
+  \ifciteseen
+    {%
+      \ifciteibid
+        {\usebibmacro{cite:ibid}}
+        {\iffieldundef{shorthand}
+          {\usebibmacro{footcite:note}}
+          {\usebibmacro{footcite:shorthand}}
+        }}
+    {\usebibmacro{footcite:full}%
+     \usebibmacro{footcite:save}}}
+
+\newbibmacro*{footcite:save}{%
+  \csxdef{cbx@f@\thefield{entrykey}}{\the\value{instcount}}%
+  \label{cbx@\the\value{instcount}}}
+
+\newbibmacro*{footcite:full}{%
+  \usebibmacro{cite:full:citepages}%
+  \printtext[bibhypertarget]{%
+    \usedriver
+      {\DeclareNameAlias{sortname}{default}}
+      {cite:\thefield{entrytype}}}%
+  \usebibmacro{shorthandintro}}
+
+% \ifnameunef{labelname}
+%   {\ifsingletitle%
+%      {\printfield[title]{labeltitle}}%
+%      {}%
+%   }%
+%   {}
+\newbibmacro*{footcite:note}{%
+  \ifnameundef{labelname}%
+    {\ifsingletitle
+      {\printfield[title]{labeltitle}
+        \setunit*{\nametitledelim}}%
+      {}%
+      \printfield{label}}
+    {\printnames{labelname}}%
+    \ifsingletitle
+      {}
+      {\setunit*{\nametitledelim}%
+       \printfield[title]{labeltitle}}%
+  \setunit*{\addcomma\space}%
+  \printtext{%
+    \bibstring{seenote}\addnbspace
+    \ref{cbx@\csuse{cbx@f@\thefield{entrykey}}}%
+   % \csuse{cbx@f@\thefield{entrykey}}
+   % \iftoggle{cbx:pageref}
+   %   {\ifsamepage{\the\value{instcount}}
+   %               {\csuse{cbx@f@\thefield{entrykey}}}
+   %      {}
+   %       {\addcomma\space\bibstring{page}\addnbspace
+   %        \pageref{cbx@\csuse{cbx@f@\thefield{entrykey}}}}}
+   %   {}%
+}%
+}
+
+\newbibmacro*{footcite:shorthand}{%
+  \printtext[bibhyperlink]{\printfield{shorthand}}}
+
+
+\DeclareCiteCommand{\cite}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \iffootnote
+   {\usebibmacro{footcite}}
+   {\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \iffootnote
+     {\usebibmacro{footcite}}
+     {\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+
+\DeclareCiteCommand{\footcite}[\mkbibfootnote]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{footcite}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+\DeclareCiteCommand{\footcitetext}[\mkbibfootnotetext]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{footcite}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+\DeclareCiteCommand{\smartcite}[\iffootnote\mkbibparens\mkbibfootnote]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \iffootnote
+     {\usebibmacro{footcite}}
+     {\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+\newbibmacro*{textcite}{%
+  \ifnameundef{labelname}
+    {\printfield[citetitle]{labeltitle}}
+    {\printnames{labelname}}}
+
+\newbibmacro*{textcite:init}{%
+  \citetrackerfalse%
+  \pagetrackerfalse%
+  \iffirstcitekey
+    {\global\undef\cbx@lasthash}
+    {}}
+
+\newbibmacro*{textcite:count}{%
+  \stepcounter{textcitetotal}%
+  \ifnumgreater{\value{uniquelist}}{\value{maxnames}}
+    {\ifnumgreater{\value{uniquelist}}{\value{textcitemaxnames}}
+       {\setcounter{textcitemaxnames}{\value{uniquelist}}}
+       {}}
+    {\ifnumless{\value{labelname}}{\value{maxnames}}
+       {\ifnumgreater{\value{labelname}}{\value{textcitemaxnames}}
+          {\setcounter{textcitemaxnames}{\value{labelname}}}
+          {}}
+       {\ifnumgreater{\value{maxnames}}{\value{textcitemaxnames}}
+          {\setcounter{textcitemaxnames}{\value{maxnames}}}
+          {}}}}
+
+\DeclareCiteCommand{\cbx@textcite}
+  {\usebibmacro{textcite:init}}
+  {\iffieldequals{namehash}{\cbx@lasthash}
+     {}
+     {\iffirstcitekey
+        {}
+        {\textcitedelim}%
+      \stepcounter{textcitecount}%
+      \usebibmacro{textcite}%
+      \savefield{namehash}{\cbx@lasthash}}}
+  {}
+  {}
+
+\DeclareCiteCommand{\textcite}[\cbx@textcite@init\cbx@textcite\footcite]
+  {\usebibmacro{textcite:init}%
+   \gdef\cbx@savedkeys{}%
+   \DeferNextCitekeyHook}
+  {\ifthenelse{\iffirstcitekey\AND\value{multicitetotal}>0}
+     {\protected@xappto\cbx@footcite@args{%
+        (\thefield{multiprenote})(\thefield{multipostnote})}}
+     {}%
+   \xappto\cbx@savedkeys{\thefield{entrykey},}%
+   \iffieldequals{namehash}{\cbx@lasthash}
+     {}
+     {\usebibmacro{textcite:count}%
+      \savefield{namehash}{\cbx@lasthash}}%
+   \ifnumequal{\value{citecount}}{\value{citetotal}}
+     {\protected@xappto\cbx@textcite@args{{\cbx@savedkeys}}%
+      \protected@xappto\cbx@footcite@args{%
+        [\thefield{prenote}][\thefield{postnote}]{\cbx@savedkeys}}%
+      \iflastcitekey
+        {\protected@xappto\cbx@textcite@args{\thefield{postpunct}}%
+         \protected@xappto\cbx@footcite@args{\nopunct}}
+        {}}
+     {}}
+  {}
+  {}
+
+\newrobustcmd{\cbx@textcite@init}[3]{%
+  \setcounter{textcitetotal}{0}%
+  \setcounter{textcitecount}{0}%
+  \setcounter{textcitemaxnames}{0}%
+  \def\cbx@textcite@args{#1}\def\cbx@footcite@args{#2}#3%
+  \cbx@textcite@args\empty\cbx@footcite@args\empty}
+
+\DeclareMultiCiteCommand{\cbx@textcites}{\cbx@textcite}{}
+\DeclareMultiCiteCommand{\textcites}
+  [\cbx@textcites@init\cbx@textcites\footcites]{\textcite}{}
+
+\let\cbx@textcites@init\cbx@textcite@init
+\pretocmd{\cbx@textcites@init}{%
+  \UseNextMultiCiteHook%
+  \AtNextMultiCite{%
+    \renewbibmacro{multiprenote}{}%
+    \renewbibmacro{multipostnote}{}}}{}{}
+
+
+% Citation Drivers:
+
+\DeclareBibliographyDriver{cite:article}{% --------------------------------
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \newcunit\newblock
+  \usebibmacro{mcgarttitle}%
+  \newsunit\newblock
+  % \printlist{language}%
+  % \newunit\newblock
+  % \usebibmacro{byauthor}%
+  % \newunit\newblock
+  % \usebibmacro{bytranslator+others}%
+  % \newunit\newblock
+  % \printfield{version}%
+  % \newunit\newblock
+%   \usebibmacro{in:}%
+  % \newunit
+  % \usebibmacro{journal+issuetitle}%
+  % \usebibmacro{byeditor+others}%
+  % \setunit*{\addspace}%
+  % \usebibmacro{mcgartdate}%
+  % \setunit*{\addspace}%
+  \usebibmacro{mcgissue+date}%
+  \setunit{\addspace}%
+  \usebibmacro{mcgvolume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{mcgjournal+issuetitle}%
+  \setunit{\addspace}%
+%  \newunit\newblock
+  \usebibmacro{note+pages}%
+%   \setunit*{\addspace}%
+% %  \newunit\newblock
+%   \newunit\newblock
+%   \usebibmacro{doi+eprint+url}%
+% %  \newunit\newblock
+%   \usebibmacro{addendum+pubstate}%
+% %  \setunit{\bibpagerefpunct}\newblock
+% %  \usebibmacro{pageref}%
+% %  \newunit\newblock
+  \usebibmacro{finentry}}
+
+
+\DeclareBibliographyDriver{cite:book}{% ------------------------------
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \newcunit\newblock
+  \usebibmacro{maintitle+title}%
+  \newsunit
+  \printlist{language}%
+  % \newsunit\newblock
+  % \usebibmacro{byauthor}%
+  \ifnameundef{editor}
+    {\ifnameundef{translator}
+      {\newsunit\newblock}%
+      {\newcunit\newblock}%
+    {\newcunit\newblock%
+     \usebibmacro{byeditor+others}}}%
+  \newsunit\newblock
+  \printfield{edition}%
+  \newsunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  % \newsunit
+  % \printfield{volumes}%
+  % \newunit\newblock
+  % \usebibmacro{series+number}%
+  \newsunit\newblock
+  \printfield{note}%
+  \newsunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newsunit\newblock
+  \usebibmacro{chapter+pages}%
+  % \newunit
+  % \printfield{pagetotal}%
+  \newsunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newsunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newsunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newsunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+
+\DeclareBibliographyDriver{cite:incollection}{% ---------------------------
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \newcunit\newblock
+  \usebibmacro{title}%
+  \newsunit
+  \printlist{language}%
+  % \newunit\newblock
+  % \usebibmacro{byauthor}%
+  \newsunit\newblock
+  % \newunit\newblock
+  \usebibmacro{in:}%
+  \usebibmacro{mcgincolleds}%
+  \newcunit\newblock
+  \usebibmacro{editorstrg}%
+  \newcunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \newsunit\newblock
+  \printfield{edition}%
+  \newsunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  % \printfield{volumes}%
+  % \newunit\newblock
+  % \usebibmacro{series+number}%
+  % \newunit\newblock
+  \printfield{note}%
+  \newsunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newsunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \usebibmacro{finentry}}
+
+
+% Case Law ===========================================================
+\DeclareBibliographyDriver{cite:jurisprudence}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+%  \bbx@resetpostnotedelim%
+  \usebibmacro{juriscitation}%
+  \usebibmacro{finentry}}
+
+
+% Case Law ===========================================================
+\DeclareBibliographyDriver{cite:legislation}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+%  \bbx@resetpostnotedelim%
+  \usebibmacro{cite:legiscitation}%
+  \usebibmacro{finentry}}
+
+\newbibmacro{cite:legiscitation}{%
+  \iffieldequalstr{country}{ca}%
+  {\usebibmacro{canlegiscitation}}%
+  {\message{Only Canadian legislation so far...}}%
+    % TODO: us, uk, eu, international
+}
+
+\newbibmacro{cite:canlegiscitation}{%
+  \printfield[citetitle]{labeltitle}
+  \usebibmacro{legistitle}%
+  \newcunit\newblock
+  \usebibmacro{statute}%
+  \setunit{\addspace}%
+  \usebibmacro{date}%
+  \newcunit\newblock
+  \usebibmacro{legischap}%
+  \iffieldundef{supplement}%
+  {}%
+  {\addspace
+   \usebibmacro{legissupp}}%
+}
+
+
+\endinput
+
+%%% Local Variables:
+%%% mode: latex
+%%% End:
