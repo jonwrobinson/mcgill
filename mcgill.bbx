@@ -905,18 +905,26 @@
     {}%
   \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{report}{%
+\DeclareBibliographyDriver{report}{% ---------------------------------
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
   \setunit{\labelnamepunct}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \printfield{type}%
+  \usebibmacro{maintitle+title}%
+  \newsunit
+  \ifnameundef{editor}
+    {\ifnameundef{translator}
+      {\newsunit}%
+      {\newcunit}%
+    {\newcunit%
+     \usebibmacro{byeditor+others}}}%
+  \newsunit
+  \usebibmacro{edition}
+  \newsunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
   \setunit*{\addspace}%
   \printfield{number}%
   \newunit\newblock
@@ -925,26 +933,14 @@
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
-  \newunit\newblock
-  \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{isrn}}
-    {}%
-  \newunit\newblock
+  \newcunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
   \usebibmacro{addendum+pubstate}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
   \usebibmacro{finentry}}
+
 
 \DeclareBibliographyDriver{thesis}{%
   \usebibmacro{bibindex}%
@@ -1309,14 +1305,15 @@
 }}
 
 \newbibmacro*{institution+location+date}{%
-  \printlist{location}%
-  \iflistundef{institution}
-    {\setunit*{\addcomma\space}}
-    {\setunit*{\addcolon\space}}%
-  \printlist{institution}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-}
+  \printtext[parens]{%
+    \printlist{location}%
+    \iflistundef{institution}
+      {\setunit*{\addcomma\space}}
+      {\setunit*{\addcolon\space}}%
+    \printlist{institution}%
+    \setunit*{\addcomma\space}%
+    \usebibmacro{date}%
+}}
 
 \newbibmacro*{organization+location+date}{%
   \printlist{location}%
@@ -1350,18 +1347,18 @@
   \iftoggle{bbx:doi}
     {\printfield{doi}}
     {}%
-  \newunit\newblock
+%  \newunit\newblock
   \iftoggle{bbx:eprint}
     {\usebibmacro{eprint}}
     {}%
-  \newunit\newblock
+%  \newunit\newblock
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
 
 \newbibmacro*{addendum+pubstate}{%
   \printfield{addendum}%
-  \newunit\newblock
+%  \newunit\newblock
   \printfield{pubstate}}
 
 \newcounter{bbx:relatedcount}
