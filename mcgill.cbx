@@ -502,6 +502,47 @@
   \usebibmacro{finentry}}
 
 
+\DeclareBibliographyDriver{cite:report}{% ---------------------------------
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \newcunit\newblock
+  \usebibmacro{maintitle+title}%
+  \newsunit
+  \ifnameundef{editor}
+    {\ifnameundef{translator}
+      {\newsunit}%
+      {\newcunit}%
+    {\newcunit%
+     \usebibmacro{byeditor+others}}}%
+  \newsunit
+  \usebibmacro{edition}
+  \newsunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+%  \newsunit\newblock
+  \setunit*{\addspace}%
+  \printfield{version}%
+%  \newsunit
+  \setunit*{\addspace}%
+  \printfield{note}%
+%  \newsunit\newblock
+  \setunit*{\addspace}%
+  \usebibmacro{institution+location+date}%
+%  \newcunit\newblock
+  \setunit*{\addcomma\addspace}%
+  \usebibmacro{doi+eprint+url}%
+  \newcunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+
+
 % Case Law ===========================================================
 \DeclareBibliographyDriver{cite:jurisprudence}{%
   \usebibmacro{bibindex}%
