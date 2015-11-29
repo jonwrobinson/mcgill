@@ -3,8 +3,9 @@ CAVEAT -- this is not even a proper "readme"!
 
 This project aims to implement (eventually) the arcane and unfriendly
 rules set out by the McGill Style Guide, which is both unduly
-prescriptive and incomplete. (And let's not get into the typographic
-problems completely belie the use of the term "style"....)
+prescriptive and incomplete. (And let's not get into the fact that the
+guide's typographic choices completely belie the use of the term
+"style"....)
 
 
 This project is in the earliest stages of development. Only a few

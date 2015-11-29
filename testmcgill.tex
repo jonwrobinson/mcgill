@@ -1,0 +1,269 @@
+%\listfiles
+\documentclass[12pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{ifluatex}
+
+% FONTS ==============================================================
+\ifluatex
+
+\usepackage{fontspec}
+
+\defaultfontfeatures{Ligatures=TeX}%
+
+% 'basic' set of fonts
+\setmainfont{Minion Pro}[Numbers=OldStyle]
+\setsansfont{Myriad Pro}[Numbers=OldStyle, Scale=MatchLowercase]
+\setmonofont{TeX Gyre Cursor}[Scale=MatchLowercase]
+% \setmonofont{Ubuntu Mono}[Scale=MatchUppercase]
+
+% Greek
+\newfontfamily\artemisia[Scale=MatchLowercase]{GFS Artemisia}
+
+% \setmainfont{Linux Libertine O}[Numbers=OldStyle]%
+% \setsansfont{Linux  Biolinum O}[Scale=MatchLowercase, Numbers=OldStyle]
+% \setmonofont{Inconsolata}[Scale=MatchLowercase]
+%
+
+\else
+%%% pdfTeX
+
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{tgbonum}
+\usepackage{tgheros}
+\usepackage{tgcursor}
+% \usepackage[osf]{libertine}
+\usepackage{textcomp}
+
+\fi%  <--- end of \ifluatex
+
+
+\newif\ifmicrotype
+\ifmicrotype
+
+\usepackage[tracking=true]{microtype}%
+
+\DeclareMicrotypeSet*[tracking]{my}
+   { encoding = *,
+     size     = -tiny,
+     font     = */*/*/sc/* }
+ \SetTracking{ encoding = *, shape = sc }{ 10 }%
+ \SetTracking{ encoding = *, size = footnotesize }{ 70 }%
+ \SetTracking{ encoding = *, size = -footnotesize }{ 100 }%
+
+\else\fi
+
+
+% EXPERIMENTAL patching of \greektext command
+% switch to Greek input: C-x RET C-\ greek
+\usepackage{xpatch}
+\ifluatex
+  \xpatchcmd{\greektext}
+    {\selectfont}
+    {\artemisia}
+    {}{}
+\else
+  \xpatchcmd{\greektext}
+    {\selectfont}
+    {\fontfamily{artemisia}\selectfont}
+    {}{}
+\fi
+
+% defined in:  ~/texmf/tex/latex/csquotes/csquotes.cfg
+\def\grk#1{{\greektext{#1}}}
+
+
+
+% LANGUAGE ===========================================================
+
+\ifluatex
+  \usepackage{polyglossia}
+  \setdefaultlanguage[variant=british]{english}
+  \setotherlanguage[variant=ancient]{greek}
+  \setotherlanguage{latin}
+  \setotherlanguage{italian}
+  \setotherlanguage{german}
+  \setotherlanguage{french}
+\else
+  \usepackage[%
+  polutonikogreek, italian, ngerman, german, frenchb,
+  latin, british]{babel}%
+\fi
+
+
+% INDEX ==============================================================
+\usepackage{imakeidx}
+
+
+% BIBLIOGRAPHY =======================================================
+
+\usepackage[strict, style=american]{csquotes}
+\usepackage[
+% style=verbose-trad3,
+ style=mcgill,
+ datamodel=mcgill,
+ abbreviate=false,
+ terseinits=true,
+ backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+\addbibresource{jurisprudence.bib}
+\addbibresource{legislation.bib}
+\addbibresource{pclsbib.bib}
+
+% \ifluatex
+% \usepackage{fontspec}
+% \setmainfont{Minion Pro}[Numbers=OldStyle]
+% \usepackage{polyglossia}
+% \setmainlanguage[variant=british]{english}
+% \else
+% \usepackage[T1]{fontenc}
+% \usepackage{fourier}
+% \usepackage[american]{babel}
+% \fi
+% \usepackage{csquotes}
+% \usepackage[
+% % style=verbose-trad3,
+% style=mcgill,
+% datamodel=mcgill,
+% abbreviate=false,
+% terseinits=true,
+% backend=biber]{biblatex}
+% \addbibresource{bibliography.bib}
+% \addbibresource{jurisprudence.bib}
+% \addbibresource{legislation.bib}
+
+
+\usepackage{multicol}
+\usepackage[hang]{footmisc}
+\usepackage[hyperfootnotes=false,colorlinks]{hyperref}
+
+\def\text{Filler text.}
+\parindent0pt
+
+\begin{document}% ====================================================
+
+\begin{multicols}{2}
+\section{Articles}
+
+\subsection{Initial Cites}
+
+\text\footcite[153]{robinson2014otso}
+
+\text\footcite{robinson2014wcod}
+
+\text\footcite[33]{callahan1996}
+
+\text\footcite{robinson2014wcod}
+
+\subsection{Subsequent Cites: Short Titles, etc.}
+
+\text\footcite[124--5]{robinson2014otso}
+
+\text\footcite[45]{robinson2014wcod}
+
+\text\footcite{callahan1996}
+
+\text\footcite{robinson2014wcod}
+
+
+\subsection{Subsequent Cites: Ibids and Supras}
+
+\text\footcite{robinson2014otso}
+
+\text\footcite{robinson2014wcod}
+
+\text\footcite{robinson2014wcod}
+
+\text\footcite{callahan1996}
+
+\text\footcite{callahan1996}
+
+
+\section{Books}
+
+\subsection{General Books}
+
+
+\text\footcite[100--69]{robinson2012}
+
+\text\footcite{hornblower-spawforth2004}
+
+
+\subsection{Edited Books}
+
+\text\footcite{plato-opera}
+
+\subsection{Translated Books}
+
+\text\footcite{grube-reeve1992}
+
+\subsection{2nd Editions, etc.}
+
+
+\text\footcite{fakhry1983}
+
+\text\footcite{grotius1950v2}
+
+
+\subsection{Subsequent Cites: Ibids and Supras}
+
+\text\footcite[100--69]{robinson2012}
+
+\text\footcite[233]{hornblower-spawforth2004}
+
+\text\footcite{plato-opera}
+
+\text\footcite{grube-reeve1992}
+
+\text\footcite{fakhry1983}
+
+\text\footcite{grotius1950v2}
+
+
+\section{InCollection}
+
+\text\footcite[40]{haakonssen2002}
+
+\text\footcite[44]{haakonssen2002}
+
+
+
+\section{Case Law / Jurisprudence}
+
+\text: \cite{delgamuukw1997}
+
+\cite{notparallel}
+
+
+
+\section{Legislation}
+
+\text\footcite[s 23.(1)]{ohrc1990}
+
+\text\footcite[s 44]{rta2006}
+
+\text\footcite[s 23.(1)]{ohrc1990}
+
+\text\footcite[s 44]{rta2006}
+
+UDHR: \footcite[71]{udhr1948}
+
+
+\end{multicols}
+
+\printbibliography[title=Legislation, type=legislation]
+
+\printbibliography[title=Jurisprudence, type=jurisprudence]
+
+\printbibliography[title={Secondary Material: Monographs}, type=book]
+
+\printbibliography[title={Secondary Material: Articles}, nottype=legislation, nottype=jurisprudence, nottype=book]
+
+\printbibliography[type=jurisprudence]
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

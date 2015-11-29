@@ -5,32 +5,16 @@
 *.bak
 *.el
 *.jwr
+*.pdf
 
 # Specific
-cheatsheet-git.pdf
-70-style-verbose-bibtex.pdf
-70-style-verbose.pdf
-71-style-verbose-ibid-bibtex.pdf
-71-style-verbose-ibid.pdf
-72-style-verbose-note-bibtex.pdf
-72-style-verbose-note.pdf
-73-style-verbose-inote-bibtex.pdf
-73-style-verbose-inote.pdf
-74-style-verbose-trad1-bibtex.pdf
-74-style-verbose-trad1.pdf
-75-style-verbose-trad2-bibtex.pdf
-75-style-verbose-trad2.pdf
-76-style-verbose-trad3-bibtex.pdf
-76-style-verbose-trad3.pdf
 testmcgill.aux
 testmcgill.bbl
 testmcgill.bcf
 testmcgill.blg
 testmcgill.log
 testmcgill.out
-testmcgill.pdf
 testmcgill.run.xml
-testmcgill.tex
 verbose.bbx
 verbose.cbx.omit
 verbose-ibid.bbx
