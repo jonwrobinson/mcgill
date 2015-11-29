@@ -101,26 +101,6 @@
 
 
 
-% biblatex-chicago: chicago-notes.cbx
-\protected\def\blx@newcunit{%
-  \global\let\blx@unitpunct\newcunitpunct
-  \global\toggletrue{blx@unit}}%
-
-\appto\blx@blxinit{%
-  \let\newcunit\blx@newcunit}
-
-\newcommand*{\newcunitpunct}{\addcomma\space}
-
-% McGill
-\protected\def\blx@newsunit{%
-  \global\let\blx@unitpunct\newsunitpunct
-  \global\toggletrue{blx@unit}}%
-
-\appto\blx@blxinit{%
-  \let\newsunit\blx@newsunit}
-
-\newcommand*{\newsunitpunct}{\addspace}
-
 
 \newbibmacro*{cite}{%
   \usebibmacro{cite:citepages}%
@@ -509,7 +489,7 @@
   \usebibmacro{finentry}}
 
 
-% Case Law ===========================================================
+% Legislation ========================================================
 \DeclareBibliographyDriver{cite:legislation}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -520,12 +500,15 @@
 \newbibmacro{cite:legiscitation}{%
   \iffieldequalstr{country}{ca}%
   {\usebibmacro{canlegiscitation}}%
-  {\message{Only Canadian legislation so far...}}%
+  {\iffieldequalstr{country}{un}%
+    {\usebibmacro{unlegiscitation}}%
+    {\message{So far (in part): Canada (ca); UN (un)...}}%
     % TODO: us, uk, eu, international
+  }%
 }
 
 \newbibmacro{cite:canlegiscitation}{%
-  \printfield[citetitle]{labeltitle}
+  \printfield[citetitle]{labeltitle}%
   \usebibmacro{legistitle}%
   \newcunit\newblock
   \usebibmacro{statute}%
@@ -538,6 +521,38 @@
   {\addspace
    \usebibmacro{legissupp}}%
 }
+
+
+
+\newbibmacro{cite:unlegiscitation}{%
+  \iffieldundef{legistype}%
+  {\printtext{TODO}}%
+  {\iffieldequalstr{legistype}{resolution}%
+    {\usebibmacro{cite:unlegisresolution}}%
+    {\printtext{TODO}}}}
+
+
+\newbibmacro{cite:unlegisresolution}{%
+  \printfield[citetitle]{labeltitle}%
+  \usebibmacro{author}%
+  \newcunit\newblock
+  \usebibmacro{title}%
+  \newcunit\newblock
+  \usebibmacro{legisresolution}%
+  \newcunit\newblock
+  \usebibmacro{legisacro}%
+  \newcunit\newblock
+  \usebibmacro{legissession}%
+  \newcunit\newblock
+  \usebibmacro{legissupp}%
+  \newcunit\newblock
+  \usebibmacro{legisdocnum}%
+  \setunit*{\addspace}%
+  \usebibmacro{legisdate}%
+  \newcunit\newblock
+  \usebibmacro{legisaddendum}%
+}
+
 
 
 \endinput
