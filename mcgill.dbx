@@ -23,26 +23,30 @@
   parallel,
   region,
   province,      % includes: "state", sub-country regions, etc.
+  legistype,     % special types: `supplements`
 }
 
 % \DeclareDatamodelFields[type=list, datatype=name]{
 % }
 
 \DeclareDatamodelFields[type=field, datatype=literal]{
+  acronym,       % e.g.: UNGAOR
+  addendum,
   casename,      % Smith v Jones
+  chapter,       % e.g.: c C-12; c 1
+  looseleaf,
   neutral,       % neutral citation
   offrep,        % official print reporter: SCR, FCR, Ex Cr
+  offrepp,       % initial page of Official Reporter
+  resolution,    % e.g.: GA Res 217(III)
   semioffrep,    % semi-official reporter: AF, NBR (2d), Nfld \& PEIR,
                  % NSR (2d), OR (3d), RJQ
-  unoffrep,      % e.g., DLR
-  offrepp,       % initial page of Official Reporter
   semioffrepp,   % initial page of Semi-Official Reporter
+  session,       % e.g.: 3d Sess
   shorthand,
-  addendum,
   statute,       % includes 'jurisdiction'; thus: `RSO`
-  chapter,       % e.g.: c C-12; c 1
   supplement,    % e.g.: (5th Supp)
-  looseleaf,
+  unoffrep,      % e.g., DLR
 }
 
 \DeclareDatamodelEntryfields[jurisprudence]{
@@ -63,8 +67,10 @@
 }
 
 \DeclareDatamodelEntryfields[legislation]{
+  acronym,       % literal
+  addendum,
   region,        % unused `key` field
-  country,       % ca, us, en, etc.
+  country,       % ca, us, en, un, etc.
   province,      % unused `key` field
   title,         % literal
   shorttitle,    % literal
@@ -72,9 +78,13 @@
   statute,       % literal
   date,          % date
   chapter,       % literal
+  session,       % literal
   supplement,    % literal
   looseleaf,     % literal
   addendum,
+  legistype,     % key: `default`; `unsupp`; etc.
+  resolution,    % literal
+  url,           % special
 }
 % TODO: amendments, repeals, and re-enactiments
 
