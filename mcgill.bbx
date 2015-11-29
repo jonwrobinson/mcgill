@@ -11,10 +11,11 @@
 \renewcommand*{\bibpagespunct}{\addspace}
 \renewcommand*{\intitlepunct}{\addspace}
 %\renewcommand*{\newunitpunct}{\addspace}
-\newcommand*{\newcunit}{\addcomma\space}
+%\newcommand*{\newcunit}{\addcomma\space}
 \renewcommand*{\postnotedelim}{\addspace}
-\renewcommand*{\subtitlepunct}{\addcolon\space}
-\renewcommand*{\bibnamedash}{\rule[0.8ex]{3em}{0.4pt}\addperiod\addspace}%
+\renewcommand*{\subtitlepunct}{\addcolon\addspace}
+\renewcommand*{\bibnamedash}{\rule[0.8ex]{3em}{0.4pt}%
+  \addperiod\nopunct\addspace}%
 
 
 % Field Formatting Directives ----------------------------------------
@@ -33,7 +34,7 @@
 % Postnote
 \DeclareFieldFormat{postnote}{\bibstring{pinpoint}\addspace #1}
 \DeclareFieldFormat[jurisprudence]{postnote}{\bibstring{para}\addspace #1}%
-\DeclareFieldFormat[legislation]{postnote}{\addcomma\space #1}%
+\DeclareFieldFormat[legislation]{postnote}{\addcomma\addspace #1}%
 % Shorthand
 \DeclareFieldFormat{shorthandwidth}{#1}
 % Title
@@ -44,12 +45,34 @@
 \DeclareFieldFormat
   [suppbook,suppcollection,suppperiodical]
   {title}{#1}
+\DeclareFieldFormat{url}{\bibstring{online}\addcolon\space\url{#1}}
 
 
 % Name Sorting, etc. -------------------------------------------------
 \DeclareNameAlias{author}{sortname}
 \DeclareNameAlias{editor}{sortname}
 \DeclareNameAlias{translator}{sortname}
+
+
+% biblatex-chicago: chicago-notes.cbx
+\protected\def\blx@newcunit{%
+  \global\let\blx@unitpunct\newcunitpunct
+  \global\toggletrue{blx@unit}}%
+
+\appto\blx@blxinit{%
+  \let\newcunit\blx@newcunit}
+
+\newcommand*{\newcunitpunct}{\addcomma\addspace}
+
+% McGill
+\protected\def\blx@newsunit{%
+  \global\let\blx@unitpunct\newsunitpunct
+  \global\toggletrue{blx@unit}}%
+
+\appto\blx@blxinit{%
+  \let\newsunit\blx@newsunit}
+
+\newcommand*{\newsunitpunct}{\addspace}
 
 
 %
@@ -222,11 +245,11 @@
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/translator+others}%
-  \setunit{\labelnamepunct}
+%  \setunit{\labelnamepunct}
   \newunit\newblock%
   \usebibmacro{mcgarttitle}%
   % \usebibmacro{title}%
-  \setunit*{\addspace}%
+  \newsunit\newblock%\setunit*{\addspace}%
   % \printlist{language}%
   % \newunit\newblock
   % \usebibmacro{byauthor}%
@@ -243,23 +266,23 @@
   % \usebibmacro{mcgartdate}%
   % \setunit*{\addspace}%
   \usebibmacro{mcgissue+date}%
-  \setunit*{\addspace}%
+  \newsunit%\newblock%\setunit*{\addspace}%
   \usebibmacro{mcgvolume+number+eid}%
-  \setunit*{\addspace}%
+  \newsunit\newblock%\setunit*{\addspace}%
   \usebibmacro{mcgjournal+issuetitle}%
-  \newunit\newblock
+  \newsunit\newblock
   \usebibmacro{note+pages}%
-  \newunit\newblock
+  \newsunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{issn}}
     {}%
-  \newunit\newblock
+  \newsunit\newblock
   \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
+  \newsunit\newblock
   \usebibmacro{addendum+pubstate}%
 %  \setunit{\bibpagerefpunct}\newblock
 %  \usebibmacro{pageref}%
-  \newunit\newblock
+  \newsunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
      \usebibmacro{related}}
@@ -273,20 +296,19 @@
     test {\iffieldundef{title}}
     and
     test {\iffieldundef{subtitle}}
-  }
-    {}
-    {\printtext[title]{%
-       \printfield[titlecase]{title}%
-       \setunit{\subtitlepunct}%
-       \printfield[titlecase]{subtitle}}%
- %    \newunit
-   }%
+  }%
+  {}%
+  {\iffieldundef{subtitle}%
+    {\printtext[title]{\printfield[titlecase]{title}}}%
+    {\printtext[title]{\printfield[titlecase]{title}%
+        \setunit*{\subtitlepunct}%
+        \printfield[titlecase]{subtitle}}}%
+  }%
   \printfield{titleaddon}}
 
 
 \newbibmacro*{mcgarttitle}{%
-  \usebibmacro{title}%
-}
+  \usebibmacro{title}}
 
 % \newbibmacro*{mcgartdate}{%
 %   \printtext[parens]{%
@@ -295,20 +317,23 @@
 
 \newbibmacro*{mcgissue+date}{%
   \printtext[parens]{%
-    \iffieldundef{issue}
-      {\usebibmacro{date}}
+    \iffieldundef{issue}%
+      {\usebibmacro{date}}%
       {\printfield{issue}%
        \setunit*{\addspace}%
-       \usebibmacro{date}}}%
-}
+       \usebibmacro{date}}}}
+
 
 \newbibmacro*{mcgvolume+number+eid}{%
   \printfield{volume}%
-  \setunit*{\addcolon}%
-  \printfield{number}%
-  \setunit{\addspace}%
-  \printfield{eid}%
-  \setunit*{\addspace}}
+  \iffieldundef{number}%
+  {}%
+  {\printunit*{\addcolon}%
+    \printfield{number}}%
+  % \setunit*{\addspace}%
+  % \printfield{eid}%
+  % \setunit*{\addspace}
+}
 
 \newbibmacro*{mcgjournal+issuetitle}{%
   \usebibmacro{journal}%
@@ -1022,23 +1047,23 @@
   \usebibmacro{booktitle}%
 }
 
-\newbibmacro*{title}{%
-  \ifboolexpr{
-    test {\iffieldundef{title}}
-    and
-    test {\iffieldundef{subtitle}}
-  }
-    {}
-    {\printtext[title]{%
-       \printfield[titlecase]{title}%
-       \iffieldundef{subtitle}
-       {}
-       {\setunit{\subtitlepunct}%
-       \printfield[titlecase]{subtitle}}}%
-}%
-  \printfield{titleaddon}}
+% \newbibmacro*{title}{%
+%   \ifboolexpr{
+%     test {\iffieldundef{title}}
+%     and
+%     test {\iffieldundef{subtitle}}
+%   }
+%     {}
+%     {\printtext[title]{%
+%        \printfield[titlecase]{title}%
+%        \iffieldundef{subtitle}
+%        {}
+%        {\setunit{\subtitlepunct}%
+%        \printfield[titlecase]{subtitle}}}%
+% }%
+%   \printfield{titleaddon}}
 
-\newbibmacro*{booktitle}{%
+\renewbibmacro*{booktitle}{%
   \ifboolexpr{
     test {\iffieldundef{booktitle}}
     and
@@ -1047,12 +1072,12 @@
     {}
     {\printtext[booktitle]{%
        \printfield[titlecase]{booktitle}%
-       \setunit{\subtitlepunct}%
+       \setunit*{\subtitlepunct}%
        \printfield[titlecase]{booksubtitle}}%
 }%
   \printfield{booktitleaddon}}
 
-\newbibmacro*{maintitle}{%
+\renewbibmacro*{maintitle}{%
   \ifboolexpr{
     test {\iffieldundef{maintitle}}
     and
@@ -1061,7 +1086,7 @@
     {}
     {\printtext[maintitle]{%
        \printfield[titlecase]{maintitle}%
-       \setunit{\subtitlepunct}%
+       \setunit*{\subtitlepunct}%
        \printfield[titlecase]{mainsubtitle}}%
 }%
   \printfield{maintitleaddon}}
@@ -1525,7 +1550,10 @@
 \newbibmacro{legiscitation}{%
   \iffieldequalstr{country}{ca}%
   {\usebibmacro{canlegiscitation}}%
-  {\message{Only Canadian legislation so far...}}%
+  {\iffieldequalstr{country}{un}%
+    {\usebibmacro{unlegiscitation}}%
+    {\message{Only the following are implemented:^^J
+        Canadian (ca); UN (un) ...}}}%
     % TODO: us, uk, eu, international
 }
 
@@ -1562,6 +1590,75 @@
 \newbibmacro*{looseleaf}{%
   \printfield{looseleaf}}
 
+
+\newbibmacro{unlegiscitation}{%
+  \iffieldundef{legistype}%
+  {\printtext{TODO}}%
+  {\iffieldequalstr{legistype}{resolution}%
+    {\usebibmacro{unlegisresolution}}%
+    {\printtext{TODO}}}}
+
+
+\newbibmacro{unlegisresolution}{%
+  \usebibmacro{author}%
+  \newcunit\newblock
+  \usebibmacro{title}%
+  \newcunit\newblock
+  \usebibmacro{legisresolution}%
+  \newcunit\newblock
+  \usebibmacro{legisacro}%
+  \newcunit\newblock
+  \usebibmacro{legissession}%
+  \newcunit\newblock
+  \usebibmacro{legissupp}%
+  \newcunit\newblock
+  \usebibmacro{legisdocnum}%
+  \setunit*{\addspace}%
+  \usebibmacro{legisdate}
+  \newcunit\newblock
+  \usebibmacro{legisurl}}
+
+
+\newbibmacro*{legisresolution}{%
+  \iffieldundef{resolution}%
+  {}%
+  {\printfield{resolution}}}
+
+
+\newbibmacro*{legisacro}{%
+  \iffieldundef{acronym}%
+  {}
+  {\printfield{acronym}}}
+
+
+\newbibmacro*{legissession}{% Note: prints date or session; see `legisdate`
+  \iffieldundef{session}%
+  {\printdate}%
+  {\printfield{session}}}
+
+
+\newbibmacro*{legisssupp}{%
+  \iffieldundef{supplement}%
+  {}%
+  {\printfield{supplement}}}
+
+
+\newbibmacro*{legisdocnum}{%
+  \iffieldundef{number}%
+  {}%
+  {\printfield{number}}}%
+
+
+\newbibmacro*{legisdate}{%
+  \iffieldundef{session}%
+  {}%
+  {\printtext[parens]{\printdate}}}
+
+
+\newbibmacro*{legisurl}{%
+  \iffieldundef{url}%
+  {}%
+  {\printfield{url}}}
 
 % \DeclareBibliographyDriver{legislation}{%
 %   \usebibmacro{bibindex}%
