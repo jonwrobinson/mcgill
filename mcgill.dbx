@@ -55,7 +55,7 @@
 \DeclareDatamodelFields[type=field, datatype=literal]{
   acronym,       % e.g.: UNGAOR
   addendum,
-  casename,      % Smith v Jones
+  casename,      % Smith v Jones; equiv of `title`
   chapter,       % e.g.: c C-12; c 1
   looseleaf,
   neutral,       % neutral citation
@@ -66,6 +66,7 @@
                  % NSR (2d), OR (3d), RJQ
   semioffrepp,   % initial page of Semi-Official Reporter
   session,       % e.g.: 3d Sess
+  shortcase,     % equiv of `shorttitle`
   shorthand,
   statute,       % includes 'jurisdiction'; thus: `RSO`
   supplement,    % e.g.: (5th Supp)
@@ -85,6 +86,7 @@
   semioffrepp,   % initial page of Semi-Official Reporter
   onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
   parallel,      % use `{no}` to indicate only a parallel cite
+  shortcase,
   shorthand,
   addendum,
 }

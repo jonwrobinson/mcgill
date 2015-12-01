@@ -42,8 +42,8 @@
 
 % Field Formatting Directives ----------------------------------------
 
-% Casename
-\DeclareFieldFormat{casename}{\mkbibemph{#1}}
+% % Casename
+% \DeclareFieldFormat{casename}{\mkbibemph{#1}}
 % Chapter
 \DeclareFieldFormat[legislation]{chapter}{#1}
 % Edition
@@ -1458,87 +1458,79 @@
    \usebibmacro{semioffrep}%
    \usebibmacro{unoffrep}%
   }%
-  {\iffieldundef{neutral}%
-    {\iffieldundef{offrep}%
-      {\usebibmacro{semioffrep+unoffrep}}}
-      {\iffieldundef{semioffrep}%
-        {\usebibmacro{offrep+unoffrep}}%
-        {\usebibmacro{offrep+semioffrep}}%
-      }%
-    {\iffieldundef{offrep}%
-      {\iffieldundef{semioffrep}%
-        {\usebibmacro{neutral+unoffrep}}%
-        {\usebibmacro{neutral+semioffrep}}%
-      }%
-      {\usebibmacro{neutral+offrep}}%
-    }%
-  }%
+  {\usebibmacro{neutral}%
+    \newcunit\newblock
+   \usebibmacro{offrep}%
+    \newcunit\newblock
+   \usebibmacro{semioffrep}%
+    \newcunit\newblock
+   \usebibmacro{unoffrep}%
 }
 
-\newbibmacro{neutral+offrep}{%
-  \iffieldundef{neutral}%
-  {}%
-  {\usebibmacro{neutral}%
-    \iffieldundef{offrep}
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{offrep}}%
-  }}
+% \newbibmacro{neutral+offrep}{%
+%   \iffieldundef{neutral}%
+%   {}%
+%   {\usebibmacro{neutral}%
+%     \iffieldundef{offrep}
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{offrep}}%
+%   }}
 
-\newbibmacro{neutral+semioffrep}{%
-  \iffieldundef{netural}%
-  {}%
-  {\usebibmacro{neutral}%
-    \iffieldundef{semioffrep}
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{semioffrep}}%
-  }}
+% \newbibmacro{neutral+semioffrep}{%
+%   \iffieldundef{netural}%
+%   {}%
+%   {\usebibmacro{neutral}%
+%     \iffieldundef{semioffrep}
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{semioffrep}}%
+%   }}
 
-\newbibmacro{neutral+unoffrep}{%
-  \iffieldundef{neutral}%
-  {}%
-  {\usebibmacro{neutral}%
-    \iffieldundef{unoffrep}%
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{unoffrep}}%
-  }}
+% \newbibmacro{neutral+unoffrep}{%
+%   \iffieldundef{neutral}%
+%   {}%
+%   {\usebibmacro{neutral}%
+%     \iffieldundef{unoffrep}%
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{unoffrep}}%
+%   }}
 
-\newbibmacro{offrep+semioffrep}{%
-  \iffieldundef{offrep}%
-  {}%
-  {\usebibmacro{offrep}%
-    \iffieldundef{semioffrep}%
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{semioffrep}}%
-  }}
+% \newbibmacro{offrep+semioffrep}{%
+%   \iffieldundef{offrep}%
+%   {}%
+%   {\usebibmacro{offrep}%
+%     \iffieldundef{semioffrep}%
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{semioffrep}}%
+%   }}
 
-\newbibmacro{offrep+unoffrep}{%
-  \iffieldundef{offrep}%
-  {}%
-  {\usebibmacro{offrep}%
-    \iffieldundef{unoffrep}%
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{unoffrep}}%
-  }}
+% \newbibmacro{offrep+unoffrep}{%
+%   \iffieldundef{offrep}%
+%   {}%
+%   {\usebibmacro{offrep}%
+%     \iffieldundef{unoffrep}%
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{unoffrep}}%
+%   }}
 
-\newbibmacro{semioffrep+unoffrep}{%
-  \iffieldundef{semioffrep}%
-  {}%
-  {\usebibmacro{semioffrep}%
-    \iffieldundef{unoffrep}%
-    {}%
-    {\usebibmacro{interjurissep}%
-      \usebibmacro{unoffrep}}%
-  }}
+% \newbibmacro{semioffrep+unoffrep}{%
+%   \iffieldundef{semioffrep}%
+%   {}%
+%   {\usebibmacro{semioffrep}%
+%     \iffieldundef{unoffrep}%
+%     {}%
+%     {\usebibmacro{interjurissep}%
+%       \usebibmacro{unoffrep}}%
+%   }}
 
 
 
 \newbibmacro*{casename}{%
-  \printfield{casename}}
+  \printfield{title}}
 
 \newbibmacro*{neutral}{%
   \printfield{neutral}}
