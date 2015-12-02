@@ -59,6 +59,8 @@
 \DeclareFieldFormat[legislation]{postnote}{\addcomma\addspace #1}%
 % Shorthand
 \DeclareFieldFormat{shorthandwidth}{#1}
+% SSRN
+\DeclareFieldFormat{ssrn}{\url{http://ssrn.com/abstract=#1}}
 % Title
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
@@ -1465,6 +1467,7 @@
    \usebibmacro{semioffrep}%
     \newcunit\newblock
    \usebibmacro{unoffrep}%
+ }%
 }
 
 % \newbibmacro{neutral+offrep}{%

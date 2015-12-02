@@ -35,6 +35,7 @@
   practicerule,   % TODO
 }
 
+\DeclareDatamodelFields[type=field, datatype=uri]{ssrn}
 
 \DeclareDatamodelFields[type=field, datatype=key]{
   onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
