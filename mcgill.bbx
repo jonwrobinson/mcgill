@@ -55,7 +55,7 @@
 \DeclareFieldFormat[article,incollection]{pages}{\mkfirstpage*{#1}}
 % Postnote
 \DeclareFieldFormat{postnote}{\bibstring{pinpoint}\addspace #1}
-\DeclareFieldFormat[jurisprudence]{postnote}{\bibstring{para}\addspace #1}%
+\DeclareFieldFormat[jurisprudence]{postnote}{\bibstring{para}\addspace #1}
 \DeclareFieldFormat[legislation]{postnote}{\addcomma\addspace #1}%
 % Shorthand
 \DeclareFieldFormat{shorthandwidth}{#1}
@@ -1566,7 +1566,7 @@
   {\usebibmacro{canlegiscitation}}%
   {\iffieldequalstr{country}{un}%
     {\usebibmacro{unlegiscitation}}%
-    {\message{Only the following are implemented:^^J
+    {\message{WARNING mcgill.bbx: Only the following are implemented:^^J
         Canadian (ca); UN (un) ...}}}%
     % TODO: us, uk, eu, international
 }

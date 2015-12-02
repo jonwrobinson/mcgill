@@ -18,9 +18,14 @@
 % - mcgill.dbx
 % - mcgill-en.lbx
 % - mcgill-fr.lbx
+% - TODO.md
+% - README.md (in lieu of actual documentation)
 %
 %
-\ProvidesFile{mcgill.dbx}[2015/11/23 v0.01 Biblatex McGill extra entry types]
+\ProvidesFile{mcgill.dbx}%
+             [2015/11/23 v0.01 Biblatex McGill extra entry types]
+
+% Set New @<types> ===================================================
 
 \DeclareDatamodelEntrytypes{
   jurisprudence,
@@ -35,24 +40,22 @@
   practicerule,   % TODO
 }
 
-\DeclareDatamodelFields[type=field, datatype=uri]{ssrn}
 
+% Set New Entry Fields ===============================================
+
+% Key Fields ---------------------------------------------------------
 \DeclareDatamodelFields[type=field, datatype=key]{
+  citedto,       % neutral; offrep; unoffrep; semioffrep
+  country,       % ca, us, en, etc.
+  paras,         % yes | no [assume `yes`]
+  parallel,      % yes | no [assume `yes`]
+  region,        %
   onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
-}
-
-\DeclareDatamodelFields[type=field, datatype=key]{
-  country,  % ca, us, en, etc.
-  paras,    % yes | no
-  parallel,
-  region,
   province,      % includes: "state", sub-country regions, etc.
   legistype,     % special types: `supplements`
 }
 
-% \DeclareDatamodelFields[type=list, datatype=name]{
-% }
-
+% Literal Fields -----------------------------------------------------
 \DeclareDatamodelFields[type=field, datatype=literal]{
   acronym,       % e.g.: UNGAOR
   addendum,
@@ -74,6 +77,14 @@
   unoffrep,      % e.g., DLR
 }
 
+
+% URIs ---------------------------------------------------------------
+\DeclareDatamodelFields[type=field, datatype=uri]{ssrn}
+
+
+
+% New @<types> =======================================================
+
 \DeclareDatamodelEntryfields[jurisprudence]{
   country,       % ca, us, en, etc.
   casename,      % Smith v Jones
@@ -82,10 +93,11 @@
   semioffrep,    % semi-official reporter: AF, NBR (2d), Nfld \& PEIR,
                  % NSR (2d), OR (3d), RJQ
   unoffrep,      % e.g., DLR
-  paras,         % ref. to paras?
   offrepp,       % initial page of Official Reporter
   semioffrepp,   % initial page of Semi-Official Reporter
   onlinetype,    % Online type: QL, WL Can, Azimut, BAILII, CanLII
+  citedto,       % key: neutral, offrep, unoffrep, semioffrep, online
+  paras,         % ref. to paras?
   parallel,      % use `{no}` to indicate only a parallel cite
   shortcase,
   shorthand,
