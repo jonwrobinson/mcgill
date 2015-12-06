@@ -13,12 +13,19 @@
 % The Current Maintainer of this work is Jonathan Robinson.
 %
 % This work consists of the files:
+%
 % - mcgill.bbx
 % - mcgill.cbx
 % - mcgill.dbx
 % - mcgill-en.lbx
 % - mcgill-fr.lbx
+% - TODO.md
+% - README.md (in lieu of actual documentation)
 %
+% The following file belongs to the public domain:
+%
+% - mcgill-jabbrevs.bib (strongly recommended; must be put in TeX'
+%   search path -- e.g., ~/texmf/bibtex/bib/)
 %
 \ProvidesFile{mcgill.cbx}
 [\abx@cbxid]
@@ -562,13 +569,13 @@
 
 \newbibmacro{cite:legiscitation}{%
   \iffieldequalstr{country}{ca}%
-  {\usebibmacro{canlegiscitation}}%
-  {\iffieldequalstr{country}{un}%
-    {\usebibmacro{unlegiscitation}}%
-    {\message{WARNING: mcgill.cbx @legislation:^^J
-        So far (in part) only: Canada (ca); UN (un)...}}%
+    {\usebibmacro{canlegiscitation}}%
+    {\iffieldequalstr{country}{un}%
+      {\usebibmacro{unlegiscitation}}%
+      {\message{WARNING: mcgill.cbx @legislation:^^J
+          So far (in part) only: Canada (ca); UN (un)...}}%
     % TODO: us, uk, eu, international
-  }%
+    }%
 }
 
 \newbibmacro{cite:canlegiscitation}{%

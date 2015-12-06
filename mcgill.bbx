@@ -13,12 +13,19 @@
 % The Current Maintainer of this work is Jonathan Robinson.
 %
 % This work consists of the files:
+%
 % - mcgill.bbx
 % - mcgill.cbx
 % - mcgill.dbx
 % - mcgill-en.lbx
 % - mcgill-fr.lbx
+% - TODO.md
+% - README.md (in lieu of actual documentation)
 %
+% The following file belongs to the public domain:
+%
+% - mcgill-jabbrevs.bib (strongly recommended; must be put in TeX'
+%   search path -- e.g., ~/texmf/bibtex/bib/)
 %
 \ProvidesFile{mcgill.bbx}
 [\abx@bbxid]
@@ -67,7 +74,7 @@
   [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
   {title}{\mkbibquote{#1}}
 \DeclareFieldFormat
-  [suppbook,suppcollection,suppperiodical]
+  [misc,suppbook,suppcollection,suppperiodical]
   {title}{#1}
 \DeclareFieldFormat{url}{\bibstring{online}\addcolon\space\url{#1}}
 

@@ -34,3 +34,20 @@ working on the following entry types:
 
 If you wish to contribute to the development of this package, you are
 encouraged to do so!
+
+
+## Current File Manifest:
+
+- mcgill.bbx
+- mcgill.cbx
+- mcgill.dbx
+- mcgill-en.lbx
+- mcgill-fr.lbx
+- TODO.md
+- README.md (in lieu of actual documentation)
+
+The following file belongs to the public domain (but is strongly
+recommended):
+
+- mcgill-jabbrevs.bib (must be put in TeX' search path -- e.g.,
+  ~/texmf/bibtex/bib/)

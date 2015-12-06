@@ -13,6 +13,7 @@
 % The Current Maintainer of this work is Jonathan Robinson.
 %
 % This work consists of the files:
+%
 % - mcgill.bbx
 % - mcgill.cbx
 % - mcgill.dbx
@@ -20,6 +21,11 @@
 % - mcgill-fr.lbx
 % - TODO.md
 % - README.md (in lieu of actual documentation)
+%
+% The following file belongs to the public domain:
+%
+% - mcgill-jabbrevs.bib (strongly recommended; must be put in TeX'
+%   search path -- e.g., ~/texmf/bibtex/bib/)
 %
 %
 \ProvidesFile{mcgill.dbx}%
@@ -72,9 +78,10 @@
   session,       % e.g.: 3d Sess
   shortcase,     % equiv of `shorttitle`
   shorthand,
-  statute,       % includes 'jurisdiction'; thus: `RSO`
+  statute,       % includes 'jurisdiction'; thus: `RSO`; also for @Regulation
   supplement,    % e.g.: (5th Supp)
   unoffrep,      % e.g., DLR
+  regnum,        % regulation number (@Regulation)
 }
 
 
@@ -127,11 +134,21 @@
 % TODO: amendments, repeals, and re-enactiments
 
 
+\DeclareDatamodelEntryfields[regulation]{
+  region,
+  country,
+  province,
+  title,
+  shorttitle,
+  regnum,         % regulation number
+  statute,        % controlling statute
+}
+
+
 % TODO...
 \DeclareDatamodelEntryfields[statinstat]{}
 \DeclareDatamodelEntryfields[code]{}
 \DeclareDatamodelEntryfields[bill]{}
-\DeclareDatamodelEntryfields[regulation]{}
 \DeclareDatamodelEntryfields[gazette]{}
 \DeclareDatamodelEntryfields[proclamation]{}
 \DeclareDatamodelEntryfields[bylaw]{}
