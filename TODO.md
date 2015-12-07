@@ -25,11 +25,18 @@
 
 - @Collection: issue: if `author` and `editor` of collection...
 
+- titleaddon for @collection does not appear
+
 ## .cbx issues
 
 - establish McGill-style "shorthand" for subsequent citations
   - if unique author, just name
   - if several works, name + shorttitle
+
+- if two essays cited from one collection: second essay only needs
+  shorteditors' names plus supra reference
+
+- period after title if edition field is used
 
 ## .dbx issues
 ## mcgill-jabbrevs.bib

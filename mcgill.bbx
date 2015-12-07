@@ -51,23 +51,35 @@
 
 % % Casename
 % \DeclareFieldFormat{casename}{\mkbibemph{#1}}
+
 % Chapter
 \DeclareFieldFormat[legislation]{chapter}{#1}
+
 % Edition
 \DeclareFieldFormat{edition}{%
   \ifinteger{#1}
     {\mkbibordedition{#1}~\bibstring{edition}}
     {#1}}
+
+% Journal Names
+\DeclareFieldFormat{journaltitle}{#1}
+%\DeclareFieldFormat{issuetitle}{\mkbibemph{#1}}
+
 % Pages
 \DeclareFieldFormat[article,incollection]{pages}{\mkfirstpage*{#1}}
+
 % Postnote
 \DeclareFieldFormat{postnote}{\bibstring{pinpoint}\addspace #1}
-\DeclareFieldFormat[jurisprudence]{postnote}{\bibstring{para}\addspace #1}
+\DeclareFieldFormat[jurisprudence]{postnote}{%
+  \bibstring{pinpoint}\space \bibstring{para}\addspace #1}
 \DeclareFieldFormat[legislation]{postnote}{\addcomma\addspace #1}%
+
 % Shorthand
 \DeclareFieldFormat{shorthandwidth}{#1}
+
 % SSRN
 \DeclareFieldFormat{ssrn}{\url{http://ssrn.com/abstract=#1}}
+
 % Title
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
@@ -1074,21 +1086,29 @@
   \usebibmacro{booktitle}%
 }
 
-% \newbibmacro*{title}{%
-%   \ifboolexpr{
-%     test {\iffieldundef{title}}
-%     and
-%     test {\iffieldundef{subtitle}}
-%   }
-%     {}
-%     {\printtext[title]{%
-%        \printfield[titlecase]{title}%
-%        \iffieldundef{subtitle}
-%        {}
-%        {\setunit{\subtitlepunct}%
-%        \printfield[titlecase]{subtitle}}}%
-% }%
-%   \printfield{titleaddon}}
+\renewbibmacro*{title}{%
+  \ifboolexpr{
+    test {\iffieldundef{title}}
+    and
+    test {\iffieldundef{subtitle}}
+  }
+    {}
+    {\printtext[title]{%
+       \printfield[titlecase]{title}%
+       \iffieldundef{subtitle}
+       {}
+       {\setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}}%
+}%
+  \ifboolexpr{
+    test {\iffieldundef{maintitleaddon}}
+    and
+    test {\iffieldundef{titleaddon}}
+  }
+  {}
+  {\addspace\printfield{titleaddon}}%
+%  \printtext{ASDF}\printfield{titleaddon}
+}
 
 \renewbibmacro*{booktitle}{%
   \ifboolexpr{
@@ -1102,7 +1122,15 @@
        \setunit*{\subtitlepunct}%
        \printfield[titlecase]{booksubtitle}}%
 }%
-  \printfield{booktitleaddon}}
+  \ifboolexpr{
+    test {\iffieldundef{maintitleaddon}}
+    and
+    test {\iffieldundef{titleaddon}}
+  }
+  {}
+  {\addspace\printfield{maintitleaddon}}%
+%  \printfield{booktitleaddon}
+}
 
 \renewbibmacro*{maintitle}{%
   \ifboolexpr{
@@ -1110,13 +1138,20 @@
     and
     test {\iffieldundef{mainsubtitle}}
   }
-    {}
-    {\printtext[maintitle]{%
+  {}
+  {\printtext[maintitle]{%
        \printfield[titlecase]{maintitle}%
        \setunit*{\subtitlepunct}%
        \printfield[titlecase]{mainsubtitle}}%
-}%
-  \printfield{maintitleaddon}}
+  }%
+  \ifboolexpr{
+    test {\iffieldundef{maintitleaddon}}
+    and
+    test {\iffieldundef{titleaddon}}
+  }
+  {}
+  {\addspace\printfield{maintitleaddon}}%
+}
 
 
 % Editors, translators, etc. -----------------------------------------
