@@ -431,13 +431,13 @@
       {\newcunit\newblock}%
     {\newcunit\newblock%
      \usebibmacro{byeditor+others}}}%
-  \newsunit\newblock
-  \printfield{edition}%
-  \newsunit
-  \iffieldundef{maintitle}
-    {\printfield{volume}%
-     \printfield{part}}
-    {}%
+ \newcunit
+ \usebibmacro{mcgedition}%
+  % \newcunit
+  % \iffieldundef{maintitle}
+  %   {\printfield{volume}%
+  %    \printfield{part}}
+  %   {}%
   % \newsunit
   % \printfield{volumes}%
   % \newunit\newblock
