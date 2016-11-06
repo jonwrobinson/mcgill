@@ -49,6 +49,9 @@
 
 % Field Formatting Directives ----------------------------------------
 
+\providebool{mcg@paras}
+\booltrue{mcg@paras}
+
 % % Casename
 % \DeclareFieldFormat{casename}{\mkbibemph{#1}}
 
@@ -70,8 +73,26 @@
 
 % Postnote
 \DeclareFieldFormat{postnote}{\bibstring{pinpoint}\addspace #1}
-\DeclareFieldFormat[jurisprudence]{postnote}{%
-  \bibstring{pinpoint}\space \bibstring{para}\addspace #1}
+
+
+\DeclareFieldFormat[jurisprudence]{postnote}{% this is a hack!
+  \bibstring{pinpoint}\space
+  \iffieldequalstr{paras}{no}%
+      {#1}% rm `\mkpageprefix[pagination]{}` to get rid or page strings?
+      {\ifnumeral{#1}%
+        {\bibstring{para}\ppspace}%
+        {\ifnumerals{#1}%
+          {\bibstring{paras}\ppspace}%
+          {\def\pno{\bibstring{para}}%
+            \def\ppno{\bibstring{paras}}}}%
+        \addspace #1}%
+}
+
+
+\DeclareFieldFormat{pages}{\mkpageprefix[bookpagination]{#1}}
+
+
+
 \DeclareFieldFormat[legislation]{postnote}{\addcomma\addspace #1}%
 
 % Shorthand
@@ -178,7 +199,7 @@
 \newbibmacro*{begrelatedloop}{}
 \newbibmacro*{endrelatedloop}{}
 
-\newbibmacro*{begrelated}{%
+\renewbibmacro*{begrelated}{%
   \booltrue{bbx@inset}}
 
 \renewbibmacro*{endrelated}{%
@@ -358,6 +379,7 @@
 %     \usebibmacro{date}}%
 %   \newunit}
 
+
 \newbibmacro*{mcgissue+date}{%
   \printtext[parens]{%
     \iffieldundef{issue}%
@@ -402,6 +424,14 @@
   \newunit}
 
 
+% why no work?
+\newbibmacro*{mcgedition}{%
+  \iffieldundef{edition}%
+    {\newsunit\newblock}%
+    {\setunit{\newcunitpunct\space}%
+     \printfield{edition}}}
+
+
 
 \DeclareBibliographyDriver{book}{% -----------------------------------
   \usebibmacro{bibindex}%
@@ -419,8 +449,8 @@
       {\newcunit}%
     {\newcunit%
      \usebibmacro{byeditor+others}}}%
-  \newsunit
-  \usebibmacro{edition}
+  \newcunit
+  \usebibmacro{mcgedition}
   \newsunit
   \iffieldundef{maintitle}
     {\printfield{volume}%
@@ -1331,6 +1361,14 @@
   \setunit{\addspace}%
   \printfield{edition}}
 
+% why no work?
+\renewbibmacro*{mcgedition}{%
+  \iffieldundef{edition}%
+    {\newsunit\newblock}%
+    {\setunit{\newcunitpunct\space}%
+     \printfield{edition}}}
+
+
 \newbibmacro*{series+number}{%
   \printfield{series}%
   \setunit*{\addspace}%
@@ -1486,6 +1524,9 @@
 
 
 \newbibmacro{juriscitation}{%
+  \iffieldequalstr{paras}{no}%
+    {\boolfalse{mcg@paras}}%
+    {\booltrue{mcg@paras}}%
   \iffieldequalstr{country}{ca}%
   {\usebibmacro{canjuriscitation}}%
   {\message{Only Canadian jurisprudence so far...}}%
