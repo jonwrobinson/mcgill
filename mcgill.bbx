@@ -1673,7 +1673,12 @@
 }
 
 \newbibmacro*{legistitle}{%
-  \printfield{title}}
+  \printfield{title}%
+  \iffieldundef{titleaddon}%
+  {}%
+  {\addspace\printfield{titleaddon}}%
+  \printfield{titleaddon}%
+}
 
 \newbibmacro*{statute}{%
   \printfield{statute}}

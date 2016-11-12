@@ -27,6 +27,9 @@
 
 - titleaddon for @collection does not appear
 
+- Edited books print a period at the end of the title. Presumably
+  because of the `editor` string (`ed.`)
+
 ## .cbx issues
 
 - establish McGill-style "shorthand" for subsequent citations
@@ -37,6 +40,11 @@
   shorteditors' names plus supra reference
 
 - period after title if edition field is used
+
+- establish shorthand for subsequent @legislation citations
+
+- spurious whitespace after @article (maybe others); evident if
+  citation is enclosed in parentheses
 
 ## .dbx issues
 ## mcgill-jabbrevs.bib
