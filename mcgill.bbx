@@ -428,8 +428,9 @@
 \newbibmacro*{mcgedition}{%
   \iffieldundef{edition}%
     {\newsunit\newblock}%
-    {\setunit{\newcunitpunct\space}%
-     \printfield{edition}}}
+    {\setunit{\newcunitpunct\addspace}%
+     \printfield{edition}}
+}
 
 
 
@@ -1357,15 +1358,15 @@
        \printeventdate}}%
 }
 
-\newbibmacro*{edition}{%
-  \setunit{\addspace}%
-  \printfield{edition}}
+% \newbibmacro*{edition}{%
+%   \setunit{\addspace}%
+%   \printfield{edition}}
 
 % why no work?
 \renewbibmacro*{mcgedition}{%
   \iffieldundef{edition}%
     {\newsunit\newblock}%
-    {\setunit{\newcunitpunct\space}%
+    {\setunit{\newcunitpunct\addspace}%
      \printfield{edition}}}
 
 
